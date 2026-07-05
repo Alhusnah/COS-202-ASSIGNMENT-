@@ -1,0 +1,129 @@
+"""
+COS202 ASSIGNMENT
+PERSONAL POCKET CGPA CALCULATOR (PPC)
+-----------------------------------------
+Uses Python's selection control statements (if / elif / else)
+to compute and classify a student's CGPA from entered courses.
+
+Author: Abdullah Sodiq Ayinde
+Matric No: 241201161
+"""
+
+
+# ---------------------------------------------------------
+# Grading logic (selection control statements)
+# ---------------------------------------------------------
+def grade_point(score):
+    """Convert a score (0-100) into a grade point and letter grade."""
+    if score >= 70:
+        return 5, "A"
+    elif score >= 60:
+        return 4, "B"
+    elif score >= 50:
+        return 3, "C"
+    elif score >= 45:
+        return 2, "D"
+    elif score >= 40:
+        return 1, "E"
+    else:
+        return 0, "F"
+
+
+def classify_cgpa(cgpa):
+    """Classify the final CGPA into a degree class."""
+    if cgpa >= 4.50:
+        return "First Class"
+    elif cgpa >= 3.50:
+        return "Second Class Upper"
+    elif cgpa >= 2.40:
+        return "Second Class Lower"
+    elif cgpa >= 1.50:
+        return "Third Class"
+    elif cgpa >= 1.00:
+        return "Pass"
+    else:
+        return "Fail"
+
+
+# ---------------------------------------------------------
+# Input helpers
+# ---------------------------------------------------------
+def read_score(course_name):
+    while True:
+        try:
+            score = float(input(f"Enter score for {course_name} (0-100): "))
+            if 0 <= score <= 100:
+                return score
+            print("Score must be between 0 and 100. Try again.")
+        except ValueError:
+            print("Invalid input. Please enter a number.")
+
+
+def read_units(course_name):
+    while True:
+        try:
+            units = int(input(f"Enter credit units for {course_name}: "))
+            if units > 0:
+                return units
+            print("Units must be a positive whole number. Try again.")
+        except ValueError:
+            print("Invalid input. Please enter a whole number.")
+
+
+def print_banner():
+    print("=" * 46)
+    print("   PERSONAL POCKET CGPA CALCULATOR (PPC)")
+    print("=" * 46)
+
+
+# ---------------------------------------------------------
+# Main program loop
+# ---------------------------------------------------------
+def main():
+    print_banner()
+
+    total_units = 0
+    total_points = 0.0
+    course_count = 0
+
+    while True:
+        print(f"\n--- Course {course_count + 1} ---")
+        course_name = input("Enter course code (or type DONE to finish): ").strip()
+
+        if course_name.upper() == "DONE":
+            break
+
+        score = read_score(course_name)
+        units = read_units(course_name)
+
+        gp, letter = grade_point(score)
+        course_points = gp * units
+
+        total_units += units
+        total_points += course_points
+        course_count += 1
+
+        print(f"-> {course_name}: Score={score}, Grade={letter}, "
+              f"Grade Point={gp}, Units={units}, Points={course_points}")
+
+    if total_units == 0:
+        print("\nNo courses entered. CGPA cannot be calculated.")
+        return
+
+    cgpa = total_points / total_units
+    classification = classify_cgpa(cgpa)
+
+    print("\n" + "=" * 46)
+    print("                RESULT SUMMARY")
+    print("=" * 46)
+    print(f"Total Courses Entered : {course_count}")
+    print(f"Total Units           : {total_units}")
+    print(f"Total Grade Points    : {total_points}")
+    print(f"Your CGPA             : {cgpa:.2f}")
+    print(f"Classification        : {classification}")
+    print("=" * 46)
+    print("Pocket CGPA Calculator - carry it everywhere!")
+
+
+if __name__ == "__main__":
+    main()

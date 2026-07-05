@@ -1,0 +1,113 @@
+"""
+COS202 ASSIGNMENT
+MATHEMATICAL CALCULATOR (MC)
+-----------------------------------
+A simple, interactive, screen-based calculator.
+Supports: + - * / ^ (power) % (modulus), C (Clear), OFF (Exit)
+
+Author: Abdullah Sodiq Ayinde
+Matric No: 241201161
+"""
+
+
+# ---------------------------------------------------------
+# Core arithmetic operations
+# ---------------------------------------------------------
+def add(a, b):
+    return a + b
+
+
+def subtract(a, b):
+    return a - b
+
+
+def multiply(a, b):
+    return a * b
+
+
+def divide(a, b):
+    if b == 0:
+        return "Error: Division by zero!"
+    return a / b
+
+
+def modulus(a, b):
+    if b == 0:
+        return "Error: Division by zero!"
+    return a % b
+
+
+def power(a, b):
+    return a ** b
+
+
+OPERATIONS = {
+    "+": ("Addition", add),
+    "-": ("Subtraction", subtract),
+    "*": ("Multiplication", multiply),
+    "/": ("Division", divide),
+    "^": ("Power", power),
+    "%": ("Modulus", modulus),
+}
+
+
+# ---------------------------------------------------------
+# Display helpers
+# ---------------------------------------------------------
+def print_banner():
+    print("=" * 42)
+    print("      MATHEMATICAL CALCULATOR (MC)")
+    print("=" * 42)
+    print("Available operations:")
+    for symbol, (name, _) in OPERATIONS.items():
+        print(f"   {symbol}   {name}")
+    print("   C   Clear screen")
+    print("   OFF Exit calculator")
+    print("=" * 42)
+
+
+def clear_screen():
+    print("\n" * 30)
+    print_banner()
+
+
+def read_number(prompt):
+    while True:
+        try:
+            return float(input(prompt))
+        except ValueError:
+            print("Invalid number. Please try again.")
+
+
+# ---------------------------------------------------------
+# Main program loop
+# ---------------------------------------------------------
+def main():
+    print_banner()
+
+    while True:
+        choice = input("\nEnter operation (+, -, *, /, ^, %, C, OFF): ").strip()
+
+        if choice.upper() == "OFF":
+            print("\nCalculator switching OFF. Goodbye!")
+            break
+
+        if choice.upper() == "C":
+            clear_screen()
+            continue
+
+        if choice not in OPERATIONS:
+            print("Invalid operation. Please choose +, -, *, /, ^, %, C, or OFF.")
+            continue
+
+        num1 = read_number("Enter first number: ")
+        num2 = read_number("Enter second number: ")
+
+        name, func = OPERATIONS[choice]
+        result = func(num1, num2)
+
+        print(f"\n{name}: {num1} {choice} {num2} = {result}")
+
+
+if __name__ == "__main__":
+    main()
